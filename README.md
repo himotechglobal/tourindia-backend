@@ -18,7 +18,7 @@ Before running the application, make sure you have the following software instal
 - open any terminal in your local machine here we are using bash
 
 ```bash
-$ git clone <'https://github.com/himotechglobal/tourindia-backend.git'>
+$ git clone https://github.com/himotechglobal/tourindia-backend.git
 $ cd tourindia-backend
 $ npm install
 ```
