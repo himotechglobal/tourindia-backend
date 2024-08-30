@@ -1,13 +1,13 @@
 ## Project - tourindia-api
 
-This repository contains the backend code for an application built using Node.js and Express.js. It provides RESTful APIs for various functionalities related to Sign in, ,Sign up and Explore Places. The application uses Mongodb as its database and includes features like jwt token auth.
+This repository contains the backend code for an application built using Node.js and Express.js. It provides RESTful APIs for various functionalities related to Sign in, Sign up and Explore Places. The application uses Mongodb as its database and includes features like jwt token auth.
 
 ## Prerequisites
 
 Before running the application, make sure you have the following software installed on your machine:
 
 - Node.js (>=18.x.x)
-- Mongodb COmpass (>=1.35.x)
+- Mongodb Compass (>=1.35.x)
 - A code editor (preferably Visual Studio Code)
 
 ## Installation
