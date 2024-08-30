@@ -1,4 +1,4 @@
-## Project - tourindia-api
+## Project - tourindia-backend
 
 This repository contains the backend code for an application built using Node.js and Express.js. It provides RESTful APIs for various functionalities related to Sign in, Sign up and Explore Places. The application uses Mongodb as its database and includes features like jwt token auth.
 
