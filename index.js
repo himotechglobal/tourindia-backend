@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const placesRoutes = require('./routes/places');
+const cors = require('cors');
 
 dotenv.config();
 
@@ -20,6 +21,9 @@ mongoose.connect(process.env.MONGO_URI, {
     .catch(err => console.log(err));
 
 // Use routes
+app.use(cors({
+    origin: "*", // Replace with your allowed origins
+}));
 app.use('/api/auth', authRoutes);
 app.use('/api/places', placesRoutes);
 const PORT = process.env.PORT || 5000;

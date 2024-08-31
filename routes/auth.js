@@ -13,7 +13,10 @@ router.post('/signup', async (req, res) => {
         if (user) {
             return res.status(400).json({ msg: 'User already exists' });
         }
-
+        user = await User.findOne({ username });
+        if (user) {
+            return res.status(400).json({ msg: 'Username already taken' });
+        }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -34,7 +37,7 @@ router.post('/signup', async (req, res) => {
         jwt.sign(
             payload,
             process.env.JWT_SECRET,
-            { expiresIn: 3600 },
+            { expiresIn: "3600" },
             (err, token) => {
                 if (err) throw err;
                 res.json({ token });
@@ -76,6 +79,15 @@ router.post('/login', async (req, res) => {
                 res.json({ token });
             }
         );
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+router.get('/get/all/user', async (req, res) => {
+    try {
+        const user = await User.find();
+        res.json(user);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');

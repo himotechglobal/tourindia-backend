@@ -70,7 +70,73 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Edit a place by ID
+router.put(
+    '/:id',
+    [
+      auth,
+      [
+        check('name', 'Name is required').optional().not().isEmpty(),
+        check('location', 'Location is required').optional().not().isEmpty(),
+        check('image', 'Image is required').optional().not().isEmpty(),
+        check('category', 'Category is required').optional().not().isEmpty(),
+      ],
+    ],
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+  
+      const { name, description, location, image, category } = req.body;
+  
+      try {
+        // Find the place by ID
+        let place = await Place.findById(req.params.id);
+        if (!place) {
+          return res.status(404).json({ msg: 'Place not found' });
+        }
+  
+        // Check if the user is authorized to update this place
+        if (place.createdBy.toString() !== req.user.id) {
+          return res.status(403).json({ msg: 'User not authorized' });
+        }
+  
+        // Update the place
+        place = await Place.findByIdAndUpdate(
+          req.params.id,
+          { $set: { name, description, location, image, category } },
+          { new: true }
+        );
+        res.json(place);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+      }
+    }
+  );
+  
 
+  router.delete('/:id', auth, async (req, res) => {
+    try {
+      // Find the place by ID
+      const place = await Place.findById(req.params.id);
+      if (!place) {
+        return res.status(404).json({ msg: 'Place not found' });
+      }
+
+      if (place.createdBy.toString() !== req.user.id) {
+        return res.status(403).json({ msg: 'User not authorized' });
+      }
+  
+      // Delete the place
+      await Place.findByIdAndRemove(req.params.id);
+      res.json({ msg: 'Place removed' });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  });
 
 // Get a  places by specific category
 router.get('/category/:category', async (req, res) => {
